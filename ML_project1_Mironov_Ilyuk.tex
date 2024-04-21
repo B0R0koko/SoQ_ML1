@@ -1,0 +1,2906 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{ML\_project1\_Mironov\_Ilyuk}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    Machine Learning. Project 1
+
+Group
+
+Mikhail Mironov
+
+Ilyuk Alexander
+
+The dataset is about a company from Barcelona that wishes to predict
+engine-off time betweeen deliveries, essentially how much time it takes
+to unload the truck and do the delivery
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{holidays}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+
+\PY{k+kn}{from} \PY{n+nn}{typing} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{from} \PY{n+nn}{tqdm} \PY{k+kn}{import} \PY{n}{tqdm}
+
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+\end{tcolorbox}
+
+    We have a typical regression problem on our hands where we aim to
+predict some numeric variable (in our case final\_time) with other
+predictor variables.
+
+Machine learning allows to train a model on existing data and use this
+model to make future predictions that if done properly are very close to
+reality. This allows to know beforehand how much time it is going to
+take to unload the car which in its turn allows to have more predictable
+delivery time for clients.
+
+Preliminary analysis
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} load data}
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dropoffs\PYZus{}df.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+  client\_name truck\_size truck\_origin\_warehouse   delivery\_timestamp  \textbackslash{}
+0   Amigó Ltd        Van          Baró de Viver  2022-04-28 18:56:43
+
+   total\_weight  brand\_1\_coffee\_proportion driver\_id  is\_fresh\_client  \textbackslash{}
+0          9.86                       0.85       D84            False
+
+   postcode business\_category         floor partnership\_level  box\_count  \textbackslash{}
+0      8030   Cafe/Restaurant  Street level           Regular          2
+
+   brand\_2\_coffee\_proportion  brand\_3\_coffee\_proportion  final\_time
+0                   0.003478                   0.146522  231.423355
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} we have no missing values}
+\PY{n}{df}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}weight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{box\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_5_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The data is clean. We observe that numeric variables don't have very
+huge outliers. High values of both box\_count and final\_time variables
+seem to be reasonable.
+
+    Studying current estimate of 3 minutes engine-off time
+
+Basically we have a prediction of \(\hat{y_i} = 180\) seconds which we
+can compare with other models. Here we will use MAPE (Mean Absolute
+Percentage Error) as an evalution metric. It allows to see how the error
+in the engine-off time compares to the absolute value of engine-off
+time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{p}{(}
+    \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{,}
+    \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{,}
+    \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{,}
+    \PY{n}{r2\PYZus{}score}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{3}\PY{o}{*}\PY{l+m+mi}{60}\PY{p}{)} \PY{c+c1}{\PYZsh{} previous estimates}
+\PY{n}{y\PYZus{}true} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{final\PYZus{}time}
+
+\PY{n}{current\PYZus{}perf} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{y\PYZus{}true}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{y\PYZus{}true}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RMSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{y\PYZus{}true}\PY{p}{,} \PY{n}{squared}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{final\PYZus{}time}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{R2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{y\PYZus{}true}\PY{p}{)}
+\PY{p}{\PYZcb{}}
+
+
+\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{current\PYZus{}perf}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{current\PYZus{}perf}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+d:\textbackslash{}SOQ\textbackslash{}ML\textbackslash{}env\textbackslash{}Lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}metrics\textbackslash{}\_regression.py:483:
+FutureWarning: 'squared' is deprecated in version 1.4 and will be removed in
+1.6. To calculate the root mean squared error, use the
+function'root\_mean\_squared\_error'.
+  warnings.warn(
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          MAE            MSE        RMSE      MAPE        R2
+0  239.722643  100664.181558  317.276191  0.489676 -1.176726
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This means that on average with this approach we miss the real
+engine-off time by 49\%
+
+    Studying time variables
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Here we will mostly prepare and study data that we have. We will study
+the features and do some feature engineering.
+
+First we will start with creating dummy variables for all categorical
+variables. Since there are not that many categorical variables we are
+good to use dummies, dataset will not explode in its size. We will start
+with timestamp dummies that will encode month, weekday and hour. We will
+study if there is any relationship between time of the day and
+engine-off time. We presume that certain times of the day could be more
+crowded thus raising the amount of time needed for dropping-off the
+product. Also we will examine month dummies to check if there is any
+effect of the time of the year on engine-off time. We suppose it won't
+be any significant since there is no snow during the winter so it
+shouldn't have any effect.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} split timestamp to days, hours and months and encode with dummies}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}weekday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{weekday}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{day}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}month}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{month}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}hour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{hour}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Below we create dummies representing each week in a months i.e 1st, 2nd,
+3rd 4th weeks. We don't expect that it will have any effect, but we will
+check nevertheless.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create a dummy variable indicating each day of the week}
+\PY{n}{day\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}weekday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{prefix}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{weekday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{day\PYZus{}cols} \PY{o}{=} \PY{n}{day\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{day\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create dummies for intervals of days within a month (1\PYZhy{}10) (10\PYZhy{}20) (20\PYZhy{}31) \PYZhy{} (start, mid, end)}
+\PY{n}{bin\PYZus{}days} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{14}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{,} \PY{l+m+mi}{31}\PY{p}{]}
+\PY{n}{labels} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{week\PYZus{}1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{week\PYZus{}2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{week\PYZus{}3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{week\PYZus{}4}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}day\PYZus{}cut}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{cut}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{bin\PYZus{}days}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{labels}\PY{p}{)}
+\PY{n}{week\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}day\PYZus{}cut}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{week\PYZus{}cols} \PY{o}{=} \PY{n}{week\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{week\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} check delivery hours range to create bins below}
+\PY{n}{np}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}hour}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Above we have covered this, these variables indicating morning, day,
+evening are the most promising
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create dummies for delivery hours to indicate morning, day, evening}
+\PY{n}{bin\PYZus{}hours} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{17}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{]}
+\PY{n}{labels} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{morning}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{evening}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}hour\PYZus{}cut}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{cut}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}hour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{bin\PYZus{}hours}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{labels}\PY{p}{)}
+\PY{n}{hour\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}hour\PYZus{}cut}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{hour\PYZus{}cols} \PY{o}{=} \PY{n}{hour\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{hour\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    By creating is\_holiday variable indicating holidays and weekends in
+Barcelona we can examine how holidays and weekends affect engine-off
+time. Employees might be more relaxed during these days as one of the
+possible relationships. But honestly, we don't expect this to be
+significant.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create a binary variable is\PYZus{}holiday (namely in Barcelona)}
+\PY{n}{barcelona\PYZus{}holidays} \PY{o}{=} \PY{n}{holidays}\PY{o}{.}\PY{n}{Spain}\PY{p}{(}\PY{n}{prov}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{barcelona\PYZus{}business\PYZus{}days} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{offsets}\PY{o}{.}\PY{n}{CustomBusinessDay}\PY{p}{(}\PY{n}{holidays}\PY{o}{=}\PY{n}{barcelona\PYZus{}holidays}\PY{p}{)}
+
+\PY{n}{sorted\PYZus{}dt} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{date\PYZus{}range} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{bdate\PYZus{}range}\PY{p}{(}
+    \PY{n}{start}\PY{o}{=}\PY{n}{sorted\PYZus{}dt}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{end}\PY{o}{=}\PY{n}{sorted\PYZus{}dt}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{freq}\PY{o}{=}\PY{n}{barcelona\PYZus{}business\PYZus{}days}
+\PY{p}{)}
+
+\PY{n}{date\PYZus{}range} \PY{o}{=} \PY{p}{[}
+    \PY{n}{el}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{el} \PY{o+ow}{in} \PY{n}{date\PYZus{}range}
+\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{is\PYZus{}holiday}\PY{p}{(}\PY{n}{el}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{int}\PY{p}{:}
+    \PY{k}{return} \PY{n+nb}{int}\PY{p}{(}\PY{n}{el}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{p}{)} \PY{o+ow}{in} \PY{n}{date\PYZus{}range}\PY{p}{)}
+
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}holiday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{is\PYZus{}holiday}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Month dummies. Since we have 5 months starting from January to May. It
+is basically same as is\_winter boolean. We also don't expect this to be
+any significant since there is no snow in Barcelona and it doesn't get
+in a way of delivery itself when driver has to go through a bunch of
+snow.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}winter}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{n}{df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{month} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}winter}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now we will visualise these dummies and their relationship with
+engine-off time
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{time\PYZus{}cols} \PY{o}{=} \PY{n}{week\PYZus{}cols} \PY{o}{+} \PY{n}{day\PYZus{}cols} \PY{o}{+} \PY{n}{hour\PYZus{}cols} \PY{o}{+} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}holiday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}winter}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{q5}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{x}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{.05}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{q95}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{x}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{.95}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} groupby hours, weekdays and etc and plot }
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}hour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}weekday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}month}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plt.savefig(\PYZdq{}dt\PYZus{}final\PYZus{}time.png\PYZdq{}, bbox\PYZus{}inches=\PYZdq{}tight\PYZdq{})}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of final\PYZus{}time grouped by time of the day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delivery\PYZus{}hour\PYZus{}cut}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    There is no significant effect of delivery\_weekday, delivery\_month and
+delivery\_day varibles on engine-off time since there is no noticable
+changes in boundaries of 95\% confidence interval along with no changes
+in mean and median.
+
+    Order entropy
+
+To account for how difficult it is get the order right we quantify its
+complexity with entropy. We assume that driver might need to handle
+multiple different packages or boxes when there are multiple brands of
+coffee. This makes it necessary to both double check if the order is
+assembled correctly by both driver and receiving client.
+
+The higher the value of entropy the more complex the order is.
+
+\$ H(x) =
+\sum\emph{\{i=1\}\^{}\{n\}\{-p}\{i\}\log\emph{\{2\}\{p}\{i\}\}\} \$
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{order\PYZus{}entropy}\PY{p}{(}\PY{n}{proportions}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{float}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+    \PY{n}{res} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{prob} \PY{o+ow}{in} \PY{n}{proportions}\PY{p}{:}
+        \PY{k}{if} \PY{n}{prob} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{k}{return} \PY{l+m+mi}{0}
+        \PY{n}{res} \PY{o}{+}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{prob} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{prob}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{res}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cols\PYZus{}brands} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{brand\PYZus{}1\PYZus{}coffee\PYZus{}proportion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{brand\PYZus{}2\PYZus{}coffee\PYZus{}proportion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{brand\PYZus{}3\PYZus{}coffee\PYZus{}proportion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{brand\PYZus{}distr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{cols\PYZus{}brands}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{order\PYZus{}entropy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{brand\PYZus{}distr}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{order\PYZus{}entropy}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{order\PYZus{}entropy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Order complexity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Recorded engine\PYZhy{}off time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    I wouldn't say that there is any significant effect of order complexity.
+But we see that simpler orders allow to cap upper quantile at around
+1000.
+
+    Truck related columns
+
+From the grouped table below we see that values from the whole
+distribution for engine-off time for trucks are slightly bigger than
+others, meaning that we can say for certain, having a truck affects the
+final engine-off time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{truck\PYZus{}size}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}
+    \PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}
+\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{background\PYZus{}gradient}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<pandas.io.formats.style.Styler at 0x1d2f3fbc3e0>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{truck\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{truck\PYZus{}size}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{truck\PYZus{}cols} \PY{o}{=} \PY{n}{truck\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{truck\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Floor columns
+
+Variables related to floor of the client definately have a direct effect
+on engine-off time. The higher the floor is the more time it takes to
+get there. The relationship might not be linear especially if there is
+no elevator.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{floor\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{floor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{floor\PYZus{}cols} \PY{o}{=} \PY{n}{floor\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{floor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}
+    \PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}
+\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{background\PYZus{}gradient}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<pandas.io.formats.style.Styler at 0x1d2f48e7b90>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of final\PYZus{}time grouped by time of the day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{floor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_43_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{floor\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Client business columns
+
+Type of business that client does shouldn't affect the final time. As we
+see from distributions and table below, they are almost identical,
+indicating that there is close to none impact of business\_category
+variable.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{business\PYZus{}category}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}
+    \PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}
+\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{background\PYZus{}gradient}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<pandas.io.formats.style.Styler at 0x1d2f449e960>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of final\PYZus{}time grouped by time of the day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{business\PYZus{}category}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_47_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{client\PYZus{}business\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{business\PYZus{}category}\PY{p}{)}
+\PY{n}{client\PYZus{}business\PYZus{}cols} \PY{o}{=} \PY{n}{client\PYZus{}business\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{client\PYZus{}business\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Dummies for each worker
+
+This one is very promising since there is a simple intuition behind the
+relationship of driver and engine-off time. Mainly we are looking at
+their physical capabilities, one can take all of the boxes and drop them
+off in one go, whilst the other one might take multiple runs to carry
+everything. So this one should be significant.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{driver\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{driver\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{driver\PYZus{}cols} \PY{o}{=} \PY{n}{driver\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{driver\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} there are plenty of them we will do correlation plot to see if there is any }
+\PY{c+c1}{\PYZsh{} significant effect on engine\PYZhy{}off time}
+\PY{n}{df}\PY{o}{.}\PY{n}{driver\PYZus{}id}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['D84', 'D98', 'D18', 'D13', 'D9', 'D61', 'D16', 'D58', 'D64',
+       'D49', 'D27', 'D33', 'D63'], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}drivers} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{driver\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}
+    \PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}
+\PY{p}{)}
+
+\PY{n}{df\PYZus{}drivers}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean\PYZus{}weight\PYZus{}handled}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{driver\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}weight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{df\PYZus{}drivers}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               q5    mean  median      q95  mean\_weight\_handled
+driver\_id
+D13        252.55  548.64  505.96  1019.13                62.84
+D16        231.38  496.70  450.58   941.21                60.51
+D18        197.25  456.15  403.40   885.89                62.14
+D27        203.63  459.28  420.81   840.73                63.35
+D33        105.70  285.27  256.07   550.54                61.55
+D49        158.87  372.63  336.18   705.68                62.39
+D58        192.82  433.85  400.27   793.25                62.50
+D61        157.84  399.21  349.02   782.83                62.72
+D63        285.77  608.66  553.59  1117.50                63.05
+D64        189.69  435.96  389.12   825.89                62.76
+D84        187.53  416.54  371.34   807.96                62.52
+D9         181.24  416.42  371.79   806.13                64.17
+D98        107.55  281.26  251.34   556.26                62.88
+\end{Verbatim}
+\end{tcolorbox}
+        
+    From the table we can clearly see that drivers have on average the same
+total\_weight but still they have different engine-off times which
+indicate that there is some individual effects that affect final times.
+
+    Dummies for each postcode (each location)
+
+This one is more questionable but still different locations might have
+something specific about them such as a minimum distance between parking
+spaces and the location itself. One location might be slightly futher
+from the road than others, or some might have a dedicated parking spots
+for unloading whilst others don't have these.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{postcode\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{postcode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{postcode\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{postcode\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{el}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{el} \PY{o+ow}{in} \PY{n}{postcode\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+
+\PY{n}{postcode\PYZus{}dummies}\PY{o}{.}\PY{n}{columns} \PY{o}{=} \PY{n}{postcode\PYZus{}cols}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{postcode\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Partnership level dummies
+
+Clients being a higher ranked account might have less paperwork and
+overall overhead related to receiving a delivery. But most likely there
+is no such complex relationships, so this variable could be just
+ignored.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{partnership\PYZus{}dummies} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{partnership\PYZus{}level}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{partnership\PYZus{}cols} \PY{o}{=} \PY{n}{partnership\PYZus{}dummies}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{partnership\PYZus{}dummies}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Cyclical time. Days and Hours
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{total\PYZus{}day\PYZus{}seconds} \PY{o}{=} \PY{l+m+mi}{24}\PY{o}{*}\PY{l+m+mi}{60}\PY{o}{*}\PY{l+m+mi}{60}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} cyclical hours to account that 6 am and 22 pm are close to each other}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{day\PYZus{}seconds\PYZus{}elapsed}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}timedelta}\PY{p}{(}
+    \PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}timestamp}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{time}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}
+\PY{p}{)}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{total\PYZus{}seconds}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{*}\PY{n}{df}\PY{o}{.}\PY{n}{day\PYZus{}seconds\PYZus{}elapsed} \PY{o}{/} \PY{n}{total\PYZus{}day\PYZus{}seconds}\PY{p}{)}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{*}\PY{n}{df}\PY{o}{.}\PY{n}{day\PYZus{}seconds\PYZus{}elapsed} \PY{o}{/} \PY{n}{total\PYZus{}day\PYZus{}seconds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} same for days 0 and 6 are close not 7 days apart}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{*}\PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}weekday} \PY{o}{/} \PY{l+m+mi}{7}\PY{p}{)}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{*}\PY{n}{df}\PY{o}{.}\PY{n}{delivery\PYZus{}weekday} \PY{o}{/} \PY{l+m+mi}{7}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Task 2
+
+Task 2.1 Present how are you going to measure performance for this
+problem and how you will use the available data for testing it.
+
+We will use 80-20 train test split. First 80 \% of the data is a train
+set that is used for training of the model. The other 20 \% are used to
+test the model, and it should not be used for any hyperparamter tuning
+and comparison of the models. Otherwise we are just adjusting our models
+so it yields the best results which creates bias meaning our model is
+not generalising. This might lead to the model being completely wrong
+once run in the production.
+
+In order to tune models and choose the best ones we will do Repeated
+K-Fold crossvalidation. This will allow us to save up on training data
+as we don't have to create another separate validation set. Also such
+approach allows to control overfitting as choosing models and tuning
+their hyperparameters on some predefined validation set might result in
+overfitting because left-out validation set might be not representitive
+of the general population. Moreover, we will use repeated
+crossvalidation meaning that we will create multiple variations of
+K-Folds which eliminates risk of being just lucky with folds we get for
+validation.
+
+Speaking of choosing an appropriate loss function, we will go for either
+MSE (Mean squared error) or Huber Loss, ideally I would choose MAPE as a
+loss funciton but sklearn doesn't support it out of the box. So we will
+use it as an evaluation metric to tune the parameters and compare the
+models between each other.
+
+We will not scale the data, this messes up MAPE score if we standardize
+to zero.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{RepeatedKFold}\PY{p}{,} \PY{n}{cross\PYZus{}validate}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} fold generator that will be used to compare models between each other}
+\PY{n}{cv\PYZus{}fold} \PY{o}{=} \PY{n}{RepeatedKFold}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{n\PYZus{}repeats}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} choosing scoring metrics that we will look at to compare models between each other}
+\PY{n}{scoring} \PY{o}{=} \PY{p}{(}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg\PYZus{}mean\PYZus{}absolute\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg\PYZus{}root\PYZus{}mean\PYZus{}squared\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg\PYZus{}mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{num\PYZus{}cols} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}weight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{box\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{order\PYZus{}entropy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+\PY{p}{]}
+
+\PY{n}{binary\PYZus{}default} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}holiday}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}fresh\PYZus{}client}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}winter}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    2.2 Develop a baseline algorithm and evaluate its performance.
+
+As a baseline model we will go for a simple linear regression with
+numeric variables provided in initial dataset. This will enable us to
+see how baseline linear regression without any tuning and feature
+engineering compares to more sophisticated models that we devise later.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LinearRegression}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{r2\PYZus{}score}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}
+    \PY{n}{df}\PY{p}{,} \PY{n}{train\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.8}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Baseline model. Linear regression with variables that make sense to use.
+
+This set of features contains the variables that should have an impact
+on the target variable
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{reg\PYZus{}cols} \PY{o}{=} \PY{p}{(}
+    \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{box\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}fresh\PYZus{}client}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{driver\PYZus{}cols} \PY{o}{+} \PY{n}{hour\PYZus{}cols} \PY{o}{+} \PY{n}{truck\PYZus{}cols} \PY{o}{+} \PY{n}{floor\PYZus{}cols}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lr\PYZus{}baseline} \PY{o}{=} \PY{n}{LinearRegression}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{lr\PYZus{}baseline}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LinearRegression()
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Below we are using \(R^{2}\) metric to evaluate our trained model.
+\(R^{2}\) allows us to quantify how much variance in the engine-off time
+we are able to predict using our model. Alternatively, it is the measure
+of how better the model is than a dummy estimator that just outputs the
+mean.
+
+\$ R\^{}\{2\} = 1 -
+\frac{\sum_{i=1}^{n}{(y_i - \hat{y_i})^2}}{\sum_{i=1}^{n}{(y_i - \bar{y_i})^2}}
+= 1 - \frac{SSE_{pred}}{SSE_{total}} \$
+
+\(R^2\) is a great metric for checking how good the fit of the model is
+but still it is very easy to mess up because by adding more meaningless
+variance with new features that don't make any sense will improve
+\(R^2\). Therefore, we might use something like adjusted-\(R^2\) which
+penalises overly complicated models that have multiple regressor
+variables.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{adjusted\PYZus{}r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}true}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{ddof}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}true}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{ddof}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}
+    \PY{n}{lr\PYZus{}baseline}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{lr\PYZus{}cv} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\PY{n}{lr\PYZus{}cv}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        fit\_time  score\_time  test\_neg\_mean\_absolute\_error  \textbackslash{}
+q5      0.003055    0.001000                    -72.062495
+mean    0.006416    0.001865                    -69.413079
+median  0.005026    0.002001                    -69.063902
+q95     0.010915    0.003411                    -67.030236
+
+        test\_neg\_mean\_squared\_error  test\_neg\_root\_mean\_squared\_error  \textbackslash{}
+q5                     -9638.031343                        -98.171702
+mean                   -8732.686604                        -93.411093
+median                 -8692.838365                        -93.235392
+q95                    -7956.922170                        -89.201228
+
+        test\_neg\_mean\_absolute\_percentage\_error   test\_r2
+q5                                    -0.204028  0.794524
+mean                                  -0.194783  0.807812
+median                                -0.193873  0.809401
+q95                                   -0.187884  0.820012
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Task 3
+
+Task 3.1 Develop the best model you can make to predict engine-off time.
+
+    Linear regression based models
+
+    Linear regression with dummies
+
+Below we are trying to fit all of the variables presented above, this
+will for sure increase \(R^{2}\) score but this is not necessarily a
+good thing. On top of that, there is plenty of multicollinearity which
+messes up coefficients of our regression and therefore interpretability,
+we will observe that some of the coefficients are in millions despite
+the fact that all regressors are scaled this is indicative of such
+multicollinearity. Further we will fix it using LASSO regression.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} define regressor columns}
+\PY{n}{reg\PYZus{}cols} \PY{o}{=} \PY{p}{(}
+    \PY{n}{num\PYZus{}cols} \PY{o}{+} \PY{n}{binary\PYZus{}default} \PY{o}{+} \PY{n}{day\PYZus{}cols} \PY{o}{+} \PY{n}{week\PYZus{}cols} \PY{o}{+} \PY{n}{hour\PYZus{}cols} \PY{o}{+} \PY{n}{truck\PYZus{}cols} \PY{o}{+} \PY{n}{partnership\PYZus{}cols} \PY{o}{+}
+    \PY{n}{floor\PYZus{}cols} \PY{o}{+} \PY{n}{client\PYZus{}business\PYZus{}cols} \PY{o}{+} \PY{n}{driver\PYZus{}cols} \PY{o}{+} \PY{n}{postcode\PYZus{}cols}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lr} \PY{o}{=} \PY{n}{LinearRegression}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} MSE loss function}
+
+\PY{n}{lr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+LinearRegression()
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}
+    \PY{n}{lr}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{lr\PYZus{}cv} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\PY{n}{lr\PYZus{}cv}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        fit\_time  score\_time  test\_neg\_mean\_absolute\_error  \textbackslash{}
+q5      0.016221    0.001610                    -72.640161
+mean    0.021918    0.002214                    -69.966079
+median  0.018030    0.002002                    -69.878537
+q95     0.029468    0.003011                    -67.554485
+
+        test\_neg\_mean\_squared\_error  test\_neg\_root\_mean\_squared\_error  \textbackslash{}
+q5                     -9768.393442                        -98.833292
+mean                   -8835.516487                        -93.960800
+median                 -8795.773018                        -93.785783
+q95                    -8046.183409                        -89.700169
+
+        test\_neg\_mean\_absolute\_percentage\_error   test\_r2
+q5                                    -0.205018  0.793264
+mean                                  -0.196531  0.805550
+median                                -0.196069  0.806801
+q95                                   -0.189862  0.816715
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{lr}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{p}{,} 
+    \PY{n}{index}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} 
+    \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coef}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coef}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{n+nb}{abs}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                      coef
+Truck         1.056784e+12
+Van           1.056784e+12
+Combi         1.056784e+12
+Other         1.023140e+12
+Ground Floor  1.023140e+12
+Street level  1.023140e+12
+weekday\_4    -7.789527e+11
+weekday\_1    -7.789527e+11
+weekday\_3    -7.789527e+11
+weekday\_2    -7.789527e+11
+\end{Verbatim}
+\end{tcolorbox}
+        
+    LASSO Regression
+
+To fix the issue above we want to leave only significant variables that
+do have an effect on the target engine-off time. To achieve this we will
+add L1 penalty that will prevent assigning non-zero values to
+insignificant variables, this will induce sparsity to our solution
+making it more general.
+
+\$ Loss ,, function = \sum\emph{\{i=1\}\^{}\{n\}\{(y\_i -
+\hat{y_i})\^{}2\} +
+\alpha\sum}\{j=1\}\^{}\{k\}\{\textbar{}\beta\_j\textbar\} \$
+
+Parameter \(\alpha\) defines how heavily we penalise non-sparsity, the
+higher alpha the more significant variables will remain.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{Lasso}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ls} \PY{o}{=} \PY{n}{Lasso}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,}  \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{)}
+\PY{n}{ls}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Lasso(alpha=0.01, max\_iter=10000)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}
+    \PY{n}{ls}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{ls\PYZus{}cv} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\PY{n}{ls\PYZus{}cv}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        fit\_time  score\_time  test\_neg\_mean\_absolute\_error  \textbackslash{}
+q5      0.271725    0.002031                    -72.597544
+mean    0.316688    0.003076                    -69.913937
+median  0.318261    0.003011                    -69.812493
+q95     0.379296    0.004189                    -67.501194
+
+        test\_neg\_mean\_squared\_error  test\_neg\_root\_mean\_squared\_error  \textbackslash{}
+q5                     -9761.006286                        -98.795928
+mean                   -8827.421207                        -93.917468
+median                 -8791.487998                        -93.762935
+q95                    -8037.365026                        -89.651025
+
+        test\_neg\_mean\_absolute\_percentage\_error   test\_r2
+q5                                    -0.204886  0.793340
+mean                                  -0.196332  0.805730
+median                                -0.195816  0.806995
+q95                                   -0.189644  0.816926
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As we see, we were right about the selection of the variables, LASSO
+puts highest coefficients on the most significant variables same as we
+discussed earlier while having basically the same stats. Since we didn't
+do any scaling of the data, we have perfect interpretability with LASSO
+regression. Therefore, now we are safe to use the same set of variables
+that we used for Baseline model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{ls}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{p}{,} 
+    \PY{n}{index}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} 
+    \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coef}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coef}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{n+nb}{abs}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       coef
+D98             -158.299172
+D63              155.874800
+D33             -148.458963
+is\_fresh\_client  135.719595
+D13              111.557625
+Street level     -72.973384
+Other             67.160389
+D16               66.281019
+morning           60.764846
+D49              -58.604495
+D61              -45.251951
+box\_count         35.595252
+Combi            -35.289603
+D84              -30.571372
+D9               -24.107059
+postcode\_8026     19.765736
+postcode\_8980    -18.274236
+postcode\_8019    -16.038577
+postcode\_8001    -15.667809
+postcode\_8013    -14.565148
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As we can see from above out of binary variables only driver, floor and
+time of the day related columns are relevant, from numeric we are safe
+to choose one like box\_count.
+
+    Huber Regressor
+
+MSE is very sensetive to outliers which might skew the whole regression
+towards outliers. This might be a good thing if we want to predict those
+better accepting a bit higher loss for inliers. But instead we could
+just use robust Huber Loss which is the middleground between MSE and
+MAE, it allows to still put stress on more or less correctly predicting
+outliers at the same time not increasing loss for inliers that much.
+
+\begin{verbatim}
+<img src="huberloss.png" width="400">
+\end{verbatim}
+
+Above is the function of huber loss, we see that it is quadratic for
+smaller errors and linear for bigger errors.
+
+\$ \{\displaystyle L\_\{\delta \}(a)=\{
+
+\begin{cases}{\frac {1}{2}}{a^{2}}&{\text{for }}|a|\leq \delta ,\\\delta \cdot \left(|a|-{\frac {1}{2}}\delta \right),&{\text{otherwise.}}\end{cases}
+
+\}\} \$
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{HuberRegressor}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hr} \PY{o}{=} \PY{n}{HuberRegressor}\PY{p}{(}
+    \PY{n}{epsilon}\PY{o}{=}\PY{l+m+mf}{1.35}\PY{p}{,}
+    \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{,}
+    \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.01}
+\PY{p}{)}
+
+\PY{n}{hr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+HuberRegressor(alpha=0.01, max\_iter=10000)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}
+    \PY{n}{hr}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{ls\PYZus{}cv} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\PY{n}{ls\PYZus{}cv}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        fit\_time  score\_time  test\_neg\_mean\_absolute\_error  \textbackslash{}
+q5      0.786175    0.001901                    -71.291145
+mean    0.994560    0.002116                    -68.898800
+median  0.996602    0.002000                    -68.830268
+q95     1.189975    0.002935                    -66.385320
+
+        test\_neg\_mean\_squared\_error  test\_neg\_root\_mean\_squared\_error  \textbackslash{}
+q5                     -9879.841295                        -99.396832
+mean                   -8966.291372                        -94.648204
+median                 -8901.781529                        -94.349253
+q95                    -8114.488155                        -90.080410
+
+        test\_neg\_mean\_absolute\_percentage\_error   test\_r2
+q5                                    -0.196821  0.790634
+mean                                  -0.188614  0.802724
+median                                -0.188304  0.804317
+q95                                   -0.181132  0.813277
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Tree based models
+
+First we will start off with bagging - RandomForest where we ensemble
+multiple week learners to make a collective good prediction. To tune the
+hyperparameters of RandomForest we will use optuna package that will
+allow in better fashion go through multiple configurations of the model
+and select the best one - one that yields highest scoring metric on
+crossvalidation.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+ch}{\PYZsh{}!pip install optuna}
+
+\PY{c+c1}{\PYZsh{} here if you do rerun the notebook just grab the optimal parameters found by optuna}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Random Forest Regressor
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{RandomForestRegressor}
+\PY{k+kn}{from} \PY{n+nn}{functools} \PY{k+kn}{import} \PY{n}{partial}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error}
+
+\PY{k+kn}{import} \PY{n+nn}{optuna}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{tune\PYZus{}fold} \PY{o}{=} \PY{n}{RepeatedKFold}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{n\PYZus{}repeats}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{random\PYZus{}forest\PYZus{}objective}\PY{p}{(}
+    \PY{n}{trial}\PY{p}{:} \PY{n}{optuna}\PY{o}{.}\PY{n}{Trial}\PY{p}{,} 
+    \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} 
+    \PY{n}{reg\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,}
+    \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}
+\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} define model with optuna set of hyperparameters}
+    \PY{n}{rfr} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}
+        \PY{n}{criterion}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{squared\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+        \PY{c+c1}{\PYZsh{} max depth of grown trees, (it is typically better to have more of smaller trees so there is no overfit)}
+        \PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}int}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max\PYZus{}depth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{)}\PY{p}{,} \PY{c+c1}{\PYZsh{} adjust max depth to control overfitting}
+        \PY{c+c1}{\PYZsh{} number of trees grown in our ensemble}
+        \PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}int}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n\PYZus{}estimators}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{1300}\PY{p}{,} \PY{n}{step}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}\PY{p}{,}
+        \PY{n}{max\PYZus{}samples}\PY{o}{=}\PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max\PYZus{}samples}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{c+c1}{\PYZsh{} use not all observations to avoid overfit}
+    \PY{p}{)}
+        
+    \PY{n}{mape\PYZus{}scores} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{fold}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} split data to train and validation sets}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}val} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} train on train subset and use validation set to evaluate the model}
+        \PY{n}{rfr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{rfr}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{mape\PYZus{}scores}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{(}
+            \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}
+        \PY{p}{)}\PY{p}{)}
+          
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{mape\PYZus{}scores}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} to help algorithm to find an optimal solution faster we will leave the most impactful variables }
+\PY{n}{reg\PYZus{}cols} \PY{o}{=} \PY{p}{(}
+    \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{box\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}fresh\PYZus{}client}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{driver\PYZus{}cols} \PY{o}{+} \PY{n}{hour\PYZus{}cols} \PY{o}{+} \PY{n}{truck\PYZus{}cols} \PY{o}{+} \PY{n}{floor\PYZus{}cols}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create an optuna study that will aim to find hyperparameters to minimize MAPE}
+\PY{n}{study\PYZus{}rfr} \PY{o}{=} \PY{n}{optuna}\PY{o}{.}\PY{n}{create\PYZus{}study}\PY{p}{(}\PY{n}{direction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minimize}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{study\PYZus{}rfr}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}
+    \PY{n}{partial}\PY{p}{(}\PY{n}{random\PYZus{}forest\PYZus{}objective}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{fold}\PY{o}{=}\PY{n}{tune\PYZus{}fold}\PY{p}{)}\PY{p}{,} 
+    \PY{n}{n\PYZus{}trials}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rfr} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}
+    \PY{n}{criterion}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{squared\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{o}{*}\PY{o}{*}\PY{n}{study\PYZus{}rfr}\PY{o}{.}\PY{n}{best\PYZus{}params}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}
+    \PY{n}{rfr}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{rfr\PYZus{}cv} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\PY{n}{rfr\PYZus{}cv}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        fit\_time  score\_time  test\_neg\_mean\_absolute\_error  \textbackslash{}
+q5      5.346999    0.148197                    -68.408699
+mean    6.162214    0.167674                    -66.048178
+median  5.573807    0.157935                    -66.069704
+q95     9.486806    0.246408                    -63.943421
+
+        test\_neg\_mean\_squared\_error  test\_neg\_root\_mean\_squared\_error  \textbackslash{}
+q5                     -9259.743697                        -96.227541
+mean                   -8494.692790                        -92.126811
+median                 -8448.299813                        -91.914633
+q95                    -7769.298176                        -88.143475
+
+        test\_neg\_mean\_absolute\_percentage\_error   test\_r2
+q5                                    -0.175894  0.794173
+mean                                  -0.170830  0.812816
+median                                -0.171939  0.812455
+q95                                   -0.163712  0.831310
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Gradient Boosting Machine
+
+Another approach is boosting where we learn based on previous errors. So
+we learn sequantially by adding more trees that aim to decrease the
+error. This should outperform previous models, we will see this when we
+do crossvalidation of the models.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{GradientBoostingRegressor}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{cross\PYZus{}val\PYZus{}score}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{gbm\PYZus{}objective}\PY{p}{(}
+    \PY{n}{trial}\PY{p}{:} \PY{n}{optuna}\PY{o}{.}\PY{n}{Trial}\PY{p}{,} \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,} \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}
+\PY{p}{)}\PY{p}{:} 
+    
+    \PY{k}{global} \PY{n}{df\PYZus{}gbm} 
+    
+    \PY{n}{gbm\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{squared\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}int}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}\PY{p}{,} 
+        \PY{c+c1}{\PYZsh{} subsample both feautures and observations}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max\PYZus{}features}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max\PYZus{}features}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subsample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subsample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+    \PY{p}{\PYZcb{}}
+    
+    \PY{c+c1}{\PYZsh{} train gbm with maximum number of boosting rounds of 2000 if there is no improvement on validation set }
+    \PY{c+c1}{\PYZsh{} then stop boosting}
+    \PY{n}{gbm} \PY{o}{=} \PY{n}{GradientBoostingRegressor}\PY{p}{(}
+        \PY{o}{*}\PY{o}{*}\PY{n}{gbm\PYZus{}params}\PY{p}{,} \PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{2000}\PY{p}{,}
+        \PY{n}{validation\PYZus{}fraction}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{n\PYZus{}iter\PYZus{}no\PYZus{}change}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+    \PY{p}{)}
+    \PY{c+c1}{\PYZsh{} unfortunately we are losing 0.05*80\PYZpc{} of the data to validation set to get optimal number of boosting rounds}
+    
+    \PY{n}{df\PYZus{}trial} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+        \PY{n}{cross\PYZus{}validate}\PY{p}{(}\PY{n}{gbm}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{fold}\PY{p}{)}
+    \PY{p}{)}
+    
+    \PY{n}{df\PYZus{}gbm} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}gbm}\PY{p}{,} \PY{n}{df\PYZus{}trial}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)} \PY{c+c1}{\PYZsh{} update global dataframe with stats}
+    
+    \PY{k}{return} \PY{o}{\PYZhy{}}\PY{n}{df\PYZus{}trial}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{test\PYZus{}neg\PYZus{}mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}gbm} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{study\PYZus{}gbm} \PY{o}{=} \PY{n}{optuna}\PY{o}{.}\PY{n}{create\PYZus{}study}\PY{p}{(}
+    \PY{n}{direction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minimize}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+\PY{p}{)}
+
+\PY{n}{study\PYZus{}gbm}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}
+    \PY{n}{partial}\PY{p}{(}\PY{n}{gbm\PYZus{}objective}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{fold}\PY{o}{=}\PY{n}{tune\PYZus{}fold}\PY{p}{)}\PY{p}{,} 
+    \PY{n}{n\PYZus{}trials}\PY{o}{=}\PY{l+m+mi}{40}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[I 2024-04-21 05:36:44,357] Trial 39 finished with value: 0.16926969421229437
+and parameters: \{'learning\_rate': 0.054923849707795895, 'max\_depth': 2,
+'max\_features': 0.6255472172622282, 'subsample': 0.6146032944228614\}. Best is
+trial 37 with value: 0.16294208389290327.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gbm} \PY{o}{=} \PY{n}{GradientBoostingRegressor}\PY{p}{(}
+    \PY{o}{*}\PY{o}{*}\PY{n}{study\PYZus{}gbm}\PY{o}{.}\PY{n}{best\PYZus{}params}\PY{p}{,} \PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{5000}\PY{p}{,} 
+    \PY{n}{validation\PYZus{}fraction}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{n}{n\PYZus{}iter\PYZus{}no\PYZus{}change}\PY{o}{=}\PY{l+m+mi}{100}
+\PY{p}{)}
+
+\PY{n}{res} \PY{o}{=} \PY{n}{cross\PYZus{}validate}\PY{p}{(}
+    \PY{n}{gbm}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scoring}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{gbm\PYZus{}cv} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\PY{n}{gbm\PYZus{}cv}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        fit\_time  score\_time  test\_neg\_mean\_absolute\_error  \textbackslash{}
+q5      0.391647    0.005008                    -64.256977
+mean    0.657266    0.008380                    -62.442759
+median  0.553049    0.007007                    -62.419430
+q95     1.011741    0.015325                    -60.877246
+
+        test\_neg\_mean\_squared\_error  test\_neg\_root\_mean\_squared\_error  \textbackslash{}
+q5                     -8162.317779                        -90.345402
+mean                   -7547.546811                        -86.844575
+median                 -7583.985292                        -87.086080
+q95                    -6928.746229                        -83.239003
+
+        test\_neg\_mean\_absolute\_percentage\_error   test\_r2
+q5                                    -0.168474  0.814202
+mean                                  -0.163128  0.833664
+median                                -0.163525  0.833626
+q95                                   -0.157459  0.851647
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Crossvalidate all of the models
+
+To compare the perfomance of the models we will crossvalidate them with
+the same fold generator, this way we will be able to see how the models
+compare to each other on the same sets in terms of various metrics
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{75}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{p}{(}
+    \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{,} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{,} 
+    \PY{n}{r2\PYZus{}score}\PY{p}{,} \PY{n}{mean\PYZus{}absolute\PYZus{}error}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{crossval\PYZus{}models}\PY{p}{(}
+    \PY{n}{models}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n}{Dict}\PY{p}{[}\PY{n+nb}{str}\PY{p}{,} \PY{n}{Any}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}
+\PY{p}{)}\PY{p}{:}
+    \PY{n}{preds} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{i} \PY{o}{=} \PY{l+m+mi}{0}
+    
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{fold}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} split data to train and validation sets}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}val} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}
+        
+        \PY{k}{for} \PY{n}{model\PYZus{}cfg} \PY{o+ow}{in} \PY{n}{models}\PY{p}{:}
+            \PY{n}{model}\PY{p}{,} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{n}{cols} \PY{o}{=} \PY{n}{model\PYZus{}cfg}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{model\PYZus{}cfg}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{model\PYZus{}cfg}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cols}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+            \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+            \PY{n}{preds}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{n}{cols}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{i}
+            \PY{p}{\PYZcb{}}\PY{p}{)}
+            
+        \PY{n}{i} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            
+    \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{preds}\PY{p}{)}\PY{o}{.}\PY{n}{explode}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res\PYZus{}cv} \PY{o}{=} \PY{n}{crossval\PYZus{}models}\PY{p}{(}
+    \PY{n}{models}\PY{o}{=}\PY{p}{[}
+        \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Linear Regression Baseline}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{lr\PYZus{}baseline}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cols}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{reg\PYZus{}cols}\PY{p}{\PYZcb{}}\PY{p}{,}
+        \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Lasso Regression}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{ls}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cols}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{reg\PYZus{}cols}\PY{p}{\PYZcb{}}\PY{p}{,}
+        \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Random Forest Regressor}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{rfr}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cols}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{reg\PYZus{}cols}\PY{p}{\PYZcb{}}\PY{p}{,}
+        \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gradient Boosting Machine}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{gbm}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cols}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{reg\PYZus{}cols}\PY{p}{\PYZcb{}}
+    \PY{p}{]}\PY{p}{,} 
+    \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,}
+    \PY{n}{fold}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{78}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fold\PYZus{}res} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{df\PYZus{}group} \PY{o+ow}{in} \PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{mape} \PY{o}{=} \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{rmse} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}
+        \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{p}{)}
+    \PY{n}{r2} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{mae} \PY{o}{=} \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    
+    \PY{n}{fold\PYZus{}res}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{name}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{name}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} 
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mape}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{rmse}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r2\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{r2}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mae}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Studying crossvalidation results
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}cross} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{fold\PYZus{}res}\PY{p}{)}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r2\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{agg}\PY{p}{(}
+    \PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}
+\PY{p}{)}\PY{o}{.}\PY{n}{T}
+\PY{n}{df\PYZus{}cross}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{background\PYZus{}gradient}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<pandas.io.formats.style.Styler at 0x1d2ffadbda0>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Distribution of errors
+
+Below we observe that all of the models are good, errors are distributed
+normally with mean of 0. Also 5 and 95 quantiles are smaller in terms of
+absolute value for GBM meaning it makes less extreme errors which is
+good.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{80}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_117_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{error}\PY{o}{.}\PY{n}{agg}\PY{p}{(}
+    \PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                                    q5      mean    median         q95
+model
+Gradient Boosting Machine  -141.338999 -0.093814  0.421166  136.083357
+Lasso Regression           -148.062900  0.010801 -0.212513  142.226287
+Linear Regression Baseline -148.121410  0.010957 -0.245194  142.343645
+Random Forest Regressor    -150.985788 -1.391245  0.929995  145.971180
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Studying errors
+
+Here we will study how models compare to each other when predicting
+higher/smaller values of engine-off time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{markers} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZca{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{+}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{marker}\PY{p}{,} \PY{n}{group} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{markers}\PY{p}{,} \PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{name}\PY{p}{,} \PY{n}{df\PYZus{}group} \PY{o}{=} \PY{n}{group}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}
+        \PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,}
+        \PY{n}{marker}\PY{o}{=}\PY{n}{marker}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{name}
+    \PY{p}{)}
+    
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{True values against predicted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_120_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The plot below is a bit messy, but still we observe that for values
+above .95 quantile, GBM is able to predict those better than others.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{true\PYZus{}95} \PY{o}{=} \PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{y\PYZus{}true} \PY{o}{\PYZgt{}} \PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{y\PYZus{}true}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{.95}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{true\PYZus{}95}\PY{o}{.}\PY{n}{y\PYZus{}true}\PY{p}{,} \PY{n}{true\PYZus{}95}\PY{o}{.}\PY{n}{y\PYZus{}true}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{marker}\PY{p}{,} \PY{n}{group} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{markers}\PY{p}{,} \PY{n}{true\PYZus{}95}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{name}\PY{p}{,} \PY{n}{df\PYZus{}group} \PY{o}{=} \PY{n}{group}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}
+        \PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,}
+        \PY{n}{marker}\PY{o}{=}\PY{n}{marker}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{name}
+    \PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predictive capacity for higher values of engine\PYZhy{}off time (95}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{ quantile)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{models\PYZus{}res\PYZus{}95.png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}inches}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_122_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Below we observe the table with MSE score for different models using
+only outliers in terms of engine-off time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{true\PYZus{}95\PYZus{}res} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{df\PYZus{}group} \PY{o+ow}{in} \PY{n}{true\PYZus{}95}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{true\PYZus{}95\PYZus{}res}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{name}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+    
+\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{true\PYZus{}95\PYZus{}res}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                        model           mse         mae      mape
+0   Gradient Boosting Machine  35106.954381  155.492432  0.154460
+1            Lasso Regression  46333.779110  185.885569  0.181563
+2  Linear Regression Baseline  46287.903058  185.772911  0.181451
+3     Random Forest Regressor  40766.067979  167.484211  0.164749
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{85}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{quan\PYZus{}res} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{quan} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{df\PYZus{}quan} \PY{o}{=} \PY{n}{res\PYZus{}cv}\PY{p}{[}\PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{y\PYZus{}true} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{res\PYZus{}cv}\PY{o}{.}\PY{n}{y\PYZus{}true}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{n}{quan}\PY{p}{)}\PY{p}{]}
+    \PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{df\PYZus{}group} \PY{o+ow}{in} \PY{n}{df\PYZus{}quan}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{quan\PYZus{}res}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{name}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}
+                \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{o}{.}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{o}{.}\PY{n}{y\PYZus{}true}
+            \PY{p}{)}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{(}
+                \PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}group}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+            \PY{p}{)}
+        \PY{p}{\PYZcb{}}\PY{p}{)}
+        
+\PY{n}{quan\PYZus{}res} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{quan\PYZus{}res}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+100\%|██████████| 100/100 [00:05<00:00, 18.71it/s]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{86}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{df\PYZus{}group} \PY{o+ow}{in} \PY{n}{quan\PYZus{}res}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}
+        \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{,} \PY{n}{df\PYZus{}group}\PY{o}{.}\PY{n}{mse}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{name}\PY{p}{,} 
+        \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{name} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Linear Regression Baseline}\PY{l+s+s2}{\PYZdq{}} \PY{k}{else} \PY{k+kc}{None}
+    \PY{p}{)}
+    
+
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentile. Data \PYZlt{}= Percentile}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_126_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Choosing the best model
+
+We see that Gradient Boosting Machine outperforms other models. Summing
+up, after seeing that boosting gave us the lowest MAE, MAPE, MSE and
+highest R2 for the same of variables, we should definitely choose
+Gradient Boosting Machine (GBM) as our final model. On top of that it
+has the best performance for higher values of engine-off time.
+
+    Task 4
+
+Task 4.1 Estefania would like to learn from the ML algorithm. What are
+the most relevant features that define the engine-off time? Can you
+somehow quantify how important each is or which are most useful?
+
+Feature importances and Permutation importances
+
+We might want to use Feauture importances which are defined as an
+overall impact of the variable towards improving the splits in the
+decision trees. By default squared error is used to measure how good the
+split is. Therefore, sum of all changes in squared\_errors relative to
+overall decrease in SSE is defined as impact of the variables. The most
+significant variables will allow to decrease SSE the most.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{87}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{bootstrap\PYZus{}tuned\PYZus{}model}\PY{p}{(}
+    \PY{n}{model}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{n\PYZus{}samples}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{Dict}\PY{p}{[}\PY{n+nb}{str}\PY{p}{,} \PY{n}{List}\PY{p}{[}\PY{n}{Any}\PY{p}{]}\PY{p}{]}\PY{p}{:}
+    
+    \PY{n}{feature\PYZus{}importances} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{df\PYZus{}sampled} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{sample}\PY{p}{(}
+            \PY{n}{df}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{replace}\PY{o}{=}\PY{k+kc}{True}
+        \PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}sampled}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}sampled}\PY{o}{.}\PY{n}{final\PYZus{}time}\PY{p}{)}
+        
+        \PY{n}{feature\PYZus{}importances}\PY{o}{.}\PY{n}{append}\PY{p}{(}
+            \PY{n}{model}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}
+        \PY{p}{)}
+        
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{feature\PYZus{}importances}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res\PYZus{}bs} \PY{o}{=} \PY{n}{bootstrap\PYZus{}tuned\PYZus{}model}\PY{p}{(}\PY{n}{gbm}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{n\PYZus{}samples}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+100\%|██████████| 10/10 [00:29<00:00,  2.95s/it]
+    \end{Verbatim}
+
+    Feature importance
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{89}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{res\PYZus{}bs}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean\PYZus{}feature\PYZus{}importance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean\PYZus{}feature\PYZus{}importance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{89}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                 mean\_feature\_importance
+box\_count                       0.621257
+D98                             0.075587
+is\_fresh\_client                 0.048708
+D33                             0.038908
+Street level                    0.037597
+D13                             0.032834
+morning                         0.027460
+D63                             0.026804
+Other                           0.014143
+D16                             0.013284
+Combi                           0.010904
+day                             0.005835
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The results above are very very good, they are in line with the second
+best model that we have (LASSO regression). The ordering of most
+impactful varibles is the same. The higher the value of
+feature\_importance the more informative is the variable.
+
+    4.2What can be done to improve even more the model performance and
+achieve better results?
+
+We might consider choosing boosting algorithms that use different
+approaches of building trees from GBM like LightGBM, XGBoost and
+CatBoost. We might also go heavy on hyperparameter tuning especially for
+CatBoost to find the best set of parameters this will allow to achieve
+an improvement in results by 3-5\% but it will be computationally
+difficult we might need to get a GPU to train multiple models especially
+once we have more data.
+
+Below we are using cyclical time encoding, previously we saw that hour
+column is significant meaning it has a lot of impact when predicting
+final engine-off time. By doing cyclical encoding we preserve measure of
+how close timestamps are to one another. It turned out way better than
+simple dummy encoding for morning, day, evening.
+
+Source to cyclic encoding
+
+    Below is everything related to competition. Further improvements
+
+Cyclic time encoding with sine and cosine
+
+XGBoost + Optuna
+
+CatBoost + Optuna
+
+Robust standardisation with Bootstrapped estimates of population mean
+and standard deviation
+
+Shapley values for CatBoost
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2} \PY{o}{=} \PY{n}{axs}
+
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Cyclic time of the day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Cyclic day of the week}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_136_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Here instead of using dummy encoded time of the day features like
+is\_morning, is\_day, is\_evening, we will use suggested cyclical sin
+and cos time. We will see that it will yield superior results with
+improvement of over 25\% in terms all metrics.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cyclic\PYZus{}cols} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sin\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cos\PYZus{}day}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{]}
+
+\PY{n}{reg\PYZus{}cols} \PY{o}{=} \PY{p}{(}
+    \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{box\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}fresh\PYZus{}client}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{driver\PYZus{}cols} \PY{o}{+} \PY{n}{truck\PYZus{}cols} \PY{o}{+} \PY{n}{floor\PYZus{}cols} \PY{o}{+} \PY{n}{cyclic\PYZus{}cols}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    XGBoostRegressor + Optuna + Cyclic time
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+ch}{\PYZsh{}!pip install xgboost}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{xgboost} \PY{k}{as} \PY{n+nn}{xgb}
+\PY{k+kn}{import} \PY{n+nn}{gc}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{xgboost\PYZus{}objective}\PY{p}{(}
+    \PY{n}{trial}\PY{p}{:} \PY{n}{optuna}\PY{o}{.}\PY{n}{Trial}\PY{p}{,} \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,} \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}
+\PY{p}{)}\PY{p}{:}
+    \PY{n}{xgb\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{objective}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reg:squarederror}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{booster}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gbtree}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{eval\PYZus{}metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rmse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}int}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.00001}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}lambda}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}lambda}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.00001}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subsample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subsample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gamma}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gamma}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{colsample\PYZus{}bytree}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{colsample\PYZus{}bytree}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{scale\PYZus{}pos\PYZus{}weight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{scale\PYZus{}pos\PYZus{}weight}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    \PY{p}{\PYZcb{}}
+
+    \PY{n}{rmse\PYZus{}scores} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{n}{i} \PY{o}{=} \PY{l+m+mi}{0}
+    
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{fold}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} split data to train and validation sets}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}val} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} train on train subset and use validation set to evaluate the model}
+        \PY{n}{dtrain} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{DMatrix}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{dval} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{DMatrix}\PY{p}{(}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{evals\PYZus{}result} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+        
+        \PY{c+c1}{\PYZsh{} Fit the model with early stopping}
+        \PY{n}{model} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{train}\PY{p}{(}
+            \PY{n}{xgb\PYZus{}params}\PY{p}{,} \PY{n}{dtrain}\PY{o}{=}\PY{n}{dtrain}\PY{p}{,} 
+            \PY{n}{evals}\PY{o}{=}\PY{p}{[}\PY{p}{(}\PY{n}{dtrain}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{dval}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+            \PY{n}{num\PYZus{}boost\PYZus{}round}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{early\PYZus{}stopping\PYZus{}rounds}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,}
+            \PY{n}{verbose\PYZus{}eval}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{evals\PYZus{}result}\PY{o}{=}\PY{n}{evals\PYZus{}result}
+        \PY{p}{)}
+        
+        \PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{dval}\PY{p}{)}
+        \PY{n}{best\PYZus{}val\PYZus{}score} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{evals\PYZus{}result}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rmse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} get the best rmse score on validation set}
+        \PY{n}{rmse\PYZus{}scores}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{best\PYZus{}val\PYZus{}score}\PY{p}{)}
+        
+        \PY{n}{trial}\PY{o}{.}\PY{n}{report}\PY{p}{(}\PY{n}{best\PYZus{}val\PYZus{}score}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+
+        \PY{k}{if} \PY{n}{trial}\PY{o}{.}\PY{n}{should\PYZus{}prune}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{raise} \PY{n}{optuna}\PY{o}{.}\PY{n}{TrialPruned}\PY{p}{(}\PY{p}{)}
+        
+        \PY{k}{del} \PY{n}{model}\PY{p}{,} \PY{n}{dtrain}\PY{p}{,} \PY{n}{dval}\PY{p}{,} \PY{n}{y\PYZus{}pred}
+        \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{gc}\PY{o}{.}\PY{n}{collect}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{i} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{rmse\PYZus{}scores}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Here we are doing pruning with optuna. We basically stop if we observe a
+very bad result (below the median) for a given set of parameters for
+current fold. We don't need to retrain the model on multiple folds if a
+very bad result has already been encountered. This way we are saving on
+computation time. Bad trials will be pruned - stopped.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{94}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{study\PYZus{}xgboost} \PY{o}{=} \PY{n}{optuna}\PY{o}{.}\PY{n}{create\PYZus{}study}\PY{p}{(}
+    \PY{n}{direction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minimize}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{pruner}\PY{o}{=}\PY{n}{optuna}\PY{o}{.}\PY{n}{pruners}\PY{o}{.}\PY{n}{MedianPruner}\PY{p}{(}\PY{n}{n\PYZus{}startup\PYZus{}trials}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{p}{)}
+
+\PY{n}{study\PYZus{}xgboost}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}
+    \PY{n}{partial}\PY{p}{(}\PY{n}{xgboost\PYZus{}objective}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{fold}\PY{o}{=}\PY{n}{tune\PYZus{}fold}\PY{p}{)}\PY{p}{,} 
+    \PY{n}{n\PYZus{}trials}\PY{o}{=}\PY{l+m+mi}{20}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[I 2024-04-21 05:43:30,985] A new study created in memory with name: no-
+name-e31accc5-4c57-4925-9fb1-5a308e346e49
+[I 2024-04-21 05:43:43,927] Trial 0 finished with value: 64.60726342300447 and
+parameters: \{'learning\_rate': 0.014632820563299322, 'max\_depth': 6, 'reg\_alpha':
+0.0996302682140848, 'reg\_lambda': 0.0004029750756271195, 'subsample':
+0.7022689380215539, 'gamma': 0.7828633167755848, 'colsample\_bytree':
+0.7425859712215619, 'scale\_pos\_weight': 1.3589410906532327\}. Best is trial 0
+with value: 64.60726342300447.
+[I 2024-04-21 05:43:50,288] Trial 1 finished with value: 66.12835169567565 and
+parameters: \{'learning\_rate': 0.029132684903477375, 'max\_depth': 7, 'reg\_alpha':
+0.00024395131962791721, 'reg\_lambda': 0.0010004395545746146, 'subsample':
+0.9225270282163038, 'gamma': 0.3862383137445612, 'colsample\_bytree':
+0.8547840645497631, 'scale\_pos\_weight': 1.4419747320984078\}. Best is trial 0
+with value: 64.60726342300447.
+[I 2024-04-21 05:43:52,739] Trial 2 finished with value: 66.79722003660203 and
+parameters: \{'learning\_rate': 0.4298073397128148, 'max\_depth': 3, 'reg\_alpha':
+3.355177974107533e-05, 'reg\_lambda': 0.006266217869683742, 'subsample':
+0.8874279877649716, 'gamma': 0.3658136927525816, 'colsample\_bytree':
+0.4530159450109359, 'scale\_pos\_weight': 1.2696598694049395\}. Best is trial 0
+with value: 64.60726342300447.
+[I 2024-04-21 05:44:04,808] Trial 3 finished with value: 68.4415913205436 and
+parameters: \{'learning\_rate': 0.020110385195002172, 'max\_depth': 6, 'reg\_alpha':
+0.0005473663916535362, 'reg\_lambda': 0.003995081083518603, 'subsample':
+0.9354510378001575, 'gamma': 0.12613524698082368, 'colsample\_bytree':
+0.2525355503346376, 'scale\_pos\_weight': 1.4365650207486373\}. Best is trial 0
+with value: 64.60726342300447.
+[I 2024-04-21 05:44:14,980] Trial 4 finished with value: 68.71489648169565 and
+parameters: \{'learning\_rate': 0.014683044217907372, 'max\_depth': 5, 'reg\_alpha':
+0.00099497667578291, 'reg\_lambda': 4.83368089778585e-05, 'subsample':
+0.5004349294490362, 'gamma': 0.053584495429410725, 'colsample\_bytree':
+0.2499052765974854, 'scale\_pos\_weight': 1.43926578023556\}. Best is trial 0 with
+value: 64.60726342300447.
+[I 2024-04-21 05:44:16,278] Trial 5 pruned.
+[I 2024-04-21 05:44:16,394] Trial 6 pruned.
+[I 2024-04-21 05:44:16,525] Trial 7 pruned.
+[I 2024-04-21 05:44:29,332] Trial 8 finished with value: 64.97596841604135 and
+parameters: \{'learning\_rate': 0.01017076032068857, 'max\_depth': 6, 'reg\_alpha':
+5.1750104210263876e-05, 'reg\_lambda': 0.002323887943144158, 'subsample':
+0.6252687947567893, 'gamma': 0.17486417118607184, 'colsample\_bytree':
+0.6008229083858603, 'scale\_pos\_weight': 1.2704507168016632\}. Best is trial 0
+with value: 64.60726342300447.
+[I 2024-04-21 05:44:32,579] Trial 9 finished with value: 64.82453437496861 and
+parameters: \{'learning\_rate': 0.09607930565339702, 'max\_depth': 4, 'reg\_alpha':
+0.01033631662991765, 'reg\_lambda': 7.220793128061113e-05, 'subsample':
+0.6442333855908184, 'gamma': 0.5016373203784112, 'colsample\_bytree':
+0.5261999052943003, 'scale\_pos\_weight': 1.576351123154482\}. Best is trial 0 with
+value: 64.60726342300447.
+[I 2024-04-21 05:44:48,976] Trial 10 finished with value: 64.08893998269006 and
+parameters: \{'learning\_rate': 0.0475845521224591, 'max\_depth': 2, 'reg\_alpha':
+0.09778105227547908, 'reg\_lambda': 0.064684984693473, 'subsample':
+0.74066363927767, 'gamma': 0.9982782783241169, 'colsample\_bytree':
+0.9468298827751397, 'scale\_pos\_weight': 1.0130691043775906\}. Best is trial 10
+with value: 64.08893998269006.
+[I 2024-04-21 05:45:05,397] Trial 11 finished with value: 64.09234740976933 and
+parameters: \{'learning\_rate': 0.050361629268599974, 'max\_depth': 2, 'reg\_alpha':
+0.06824412724140147, 'reg\_lambda': 0.0929347777158345, 'subsample':
+0.6926604517307461, 'gamma': 0.9793047266723323, 'colsample\_bytree':
+0.985731261324015, 'scale\_pos\_weight': 1.071455696283988\}. Best is trial 10 with
+value: 64.08893998269006.
+[I 2024-04-21 05:45:21,939] Trial 12 finished with value: 64.0062281494575 and
+parameters: \{'learning\_rate': 0.055601426769174074, 'max\_depth': 2, 'reg\_alpha':
+0.08318189347471308, 'reg\_lambda': 0.09578376828866526, 'subsample':
+0.7997285108712258, 'gamma': 0.9867786905978835, 'colsample\_bytree':
+0.9611536491420614, 'scale\_pos\_weight': 1.0204080542107243\}. Best is trial 12
+with value: 64.0062281494575.
+[I 2024-04-21 05:45:34,929] Trial 13 finished with value: 64.0907035248248 and
+parameters: \{'learning\_rate': 0.07506397165453954, 'max\_depth': 2, 'reg\_alpha':
+0.007188521413830665, 'reg\_lambda': 0.0996010106170923, 'subsample':
+0.7986981334721845, 'gamma': 0.9662674505669495, 'colsample\_bytree':
+0.9881604401698084, 'scale\_pos\_weight': 1.0053046491014372\}. Best is trial 12
+with value: 64.0062281494575.
+[I 2024-04-21 05:45:48,398] Trial 14 finished with value: 63.58537009461552 and
+parameters: \{'learning\_rate': 0.0416303163327905, 'max\_depth': 3, 'reg\_alpha':
+0.03061753886322984, 'reg\_lambda': 0.02858938266014199, 'subsample':
+0.7830556637704198, 'gamma': 0.6541027359313031, 'colsample\_bytree':
+0.8509517494025332, 'scale\_pos\_weight': 1.129634011934616\}. Best is trial 14
+with value: 63.58537009461552.
+[I 2024-04-21 05:45:51,880] Trial 15 finished with value: 64.32244830303082 and
+parameters: \{'learning\_rate': 0.12253631660642889, 'max\_depth': 4, 'reg\_alpha':
+0.003138298436394606, 'reg\_lambda': 0.02357476357911124, 'subsample':
+0.8081198696763049, 'gamma': 0.6330903191186269, 'colsample\_bytree':
+0.7766590671687789, 'scale\_pos\_weight': 1.6820640427477096\}. Best is trial 14
+with value: 63.58537009461552.
+[I 2024-04-21 05:45:58,465] Trial 16 finished with value: 63.67851299252992 and
+parameters: \{'learning\_rate': 0.03807324372623899, 'max\_depth': 3, 'reg\_alpha':
+0.0033611916169084236, 'reg\_lambda': 0.022513553966569674, 'subsample':
+0.8082251487211264, 'gamma': 0.5747946476140908, 'colsample\_bytree':
+0.6447160025223467, 'scale\_pos\_weight': 1.132023899506216\}. Best is trial 14
+with value: 63.58537009461552.
+[I 2024-04-21 05:45:59,168] Trial 17 pruned.
+[I 2024-04-21 05:46:02,309] Trial 18 finished with value: 64.31773349311686 and
+parameters: \{'learning\_rate': 0.16382341074131782, 'max\_depth': 3, 'reg\_alpha':
+0.0026515620172638827, 'reg\_lambda': 0.022467146610313158, 'subsample':
+0.8345405526655045, 'gamma': 0.5400971031630457, 'colsample\_bytree':
+0.6552367290365337, 'scale\_pos\_weight': 1.9829598586285833\}. Best is trial 14
+with value: 63.58537009461552.
+[I 2024-04-21 05:46:03,395] Trial 19 pruned.
+    \end{Verbatim}
+
+    Since XGBoost (similiar will be with CatBoost) needs a separate
+validation set for early stopping we will use our custom crossvalidation
+function that will use same folds as previous in crossvalidations runs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{95}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{crossval\PYZus{}xgboost}\PY{p}{(}
+    \PY{n}{xgb\PYZus{}params}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+    
+    \PY{n}{scores} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{xgb\PYZus{}params}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{eval\PYZus{}metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rmse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{fold}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} split data to train and validation sets}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}val} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} train on train subset and use validation set to evaluate the model}
+        \PY{n}{dtrain} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{DMatrix}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{dval} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{DMatrix}\PY{p}{(}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{evals\PYZus{}result} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+        
+        \PY{c+c1}{\PYZsh{} Fit the model with early stopping}
+        \PY{n}{model} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{train}\PY{p}{(}
+            \PY{n}{xgb\PYZus{}params}\PY{p}{,} \PY{n}{dtrain}\PY{o}{=}\PY{n}{dtrain}\PY{p}{,} 
+            \PY{n}{evals}\PY{o}{=}\PY{p}{[}\PY{p}{(}\PY{n}{dtrain}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{dval}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+            \PY{n}{num\PYZus{}boost\PYZus{}round}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}
+            \PY{n}{early\PYZus{}stopping\PYZus{}rounds}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{verbose\PYZus{}eval}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+            \PY{n}{evals\PYZus{}result}\PY{o}{=}\PY{n}{evals\PYZus{}result}
+        \PY{p}{)}
+        
+        \PY{n}{scores}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb}{min}\PY{p}{(}\PY{n}{evals\PYZus{}result}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mae}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb}{min}\PY{p}{(}\PY{n}{evals\PYZus{}result}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mape}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rmse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb}{min}\PY{p}{(}\PY{n}{evals\PYZus{}result}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rmse}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{p}{\PYZcb{}}\PY{p}{)}
+        
+    \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{scores}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{96}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res} \PY{o}{=} \PY{n}{crossval\PYZus{}xgboost}\PY{p}{(}
+    \PY{n}{xgb\PYZus{}params}\PY{o}{=}\PY{n}{study\PYZus{}xgboost}\PY{o}{.}\PY{n}{best\PYZus{}params}\PY{p}{,} 
+    \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} 
+    \PY{n}{fold}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+
+\PY{n}{res}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{96}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mae      mape       rmse
+q5      41.567778  0.100108  61.010370
+median  43.168732  0.105702  63.816904
+mean    43.173768  0.104930  63.673793
+q95     45.141012  0.107954  66.536078
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Catboost + Optuna + Cyclic time
+
+Usually CatBoost is the best boosting algorithm but there is a trade-off
+as it takes generally more time to train. So we expect better results
+than XGBoost and way more computation time. I also tried using CatBoost
+with its built-in nifty categorical enconding (ordered target encoding)
+but it turned out to be slightly worse, I think it is a great tool when
+we have multiple categories and dummies is not the option to encode them
+since we will end up with millions of features which is bad.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{97}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{catboost} \PY{k}{as} \PY{n+nn}{cb}
+\PY{k+kn}{import} \PY{n+nn}{optuna}
+\PY{k+kn}{import} \PY{n+nn}{gc}
+
+\PY{k+kn}{from} \PY{n+nn}{catboost} \PY{k+kn}{import} \PY{n}{Pool}\PY{p}{,} \PY{n}{CatBoostRegressor}
+
+\PY{k+kn}{from} \PY{n+nn}{functools} \PY{k+kn}{import} \PY{n}{partial}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{98}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{catboost\PYZus{}objective}\PY{p}{(}
+    \PY{n}{trial}\PY{p}{:} \PY{n}{optuna}\PY{o}{.}\PY{n}{Trial}\PY{p}{,} \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}\PY{p}{,}
+    \PY{n}{reg\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,} \PY{n}{cat\PYZus{}features}\PY{p}{:} \PY{n}{Union}\PY{p}{[}\PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]} \PY{o}{|} \PY{k+kc}{None}\PY{p}{]} \PY{o}{=} \PY{k+kc}{None}
+\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{cb\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{objective}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}int}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{l2\PYZus{}leaf\PYZus{}reg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{l2\PYZus{}leaf\PYZus{}reg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.00001}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{log}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subsample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{trial}\PY{o}{.}\PY{n}{suggest\PYZus{}float}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subsample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{eval\PYZus{}metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{random\PYZus{}seed}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{42}\PY{p}{,}
+    \PY{p}{\PYZcb{}}
+
+    \PY{n}{scores} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{i} \PY{o}{=} \PY{l+m+mi}{0}
+    
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{fold}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} split data to train and validation sets}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}val} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}
+        
+        \PY{c+c1}{\PYZsh{} train on train subset and use validation set to evaluate the model}
+        \PY{n}{train} \PY{o}{=} \PY{n}{Pool}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{val} \PY{o}{=} \PY{n}{Pool}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Fit the model with early stopping}
+        \PY{n}{model} \PY{o}{=} \PY{n}{CatBoostRegressor}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{cb\PYZus{}params}\PY{p}{)}
+        
+        \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+            \PY{n}{train}\PY{p}{,}
+            \PY{n}{eval\PYZus{}set}\PY{o}{=}\PY{n}{val}\PY{p}{,}
+            \PY{n}{use\PYZus{}best\PYZus{}model}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+            \PY{n}{early\PYZus{}stopping\PYZus{}rounds}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,}
+            \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+        \PY{p}{)}
+        
+        \PY{n}{rmse} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{best\PYZus{}score\PYZus{}}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{validation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{scores}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{rmse}\PY{p}{)}
+        
+        \PY{n}{trial}\PY{o}{.}\PY{n}{report}\PY{p}{(}\PY{n}{rmse}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+        
+        \PY{k}{if} \PY{n}{trial}\PY{o}{.}\PY{n}{should\PYZus{}prune}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{raise} \PY{n}{optuna}\PY{o}{.}\PY{n}{TrialPruned}\PY{p}{(}\PY{p}{)}
+        
+        \PY{k}{del} \PY{n}{model}
+        \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{gc}\PY{o}{.}\PY{n}{collect}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{i} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{scores}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{study\PYZus{}catboost} \PY{o}{=} \PY{n}{optuna}\PY{o}{.}\PY{n}{create\PYZus{}study}\PY{p}{(}
+    \PY{n}{direction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{minimize}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{pruner}\PY{o}{=}\PY{n}{optuna}\PY{o}{.}\PY{n}{pruners}\PY{o}{.}\PY{n}{MedianPruner}\PY{p}{(}\PY{n}{n\PYZus{}startup\PYZus{}trials}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{p}{)}
+
+\PY{n}{study\PYZus{}catboost}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}
+    \PY{n}{partial}\PY{p}{(}\PY{n}{catboost\PYZus{}objective}\PY{p}{,} \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,} \PY{n}{fold}\PY{o}{=}\PY{n}{tune\PYZus{}fold}\PY{p}{)}\PY{p}{,} 
+    \PY{n}{n\PYZus{}trials}\PY{o}{=}\PY{l+m+mi}{20}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{100}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} create a split early stopping validation set}
+\PY{n}{cb\PYZus{}train}\PY{p}{,} \PY{n}{cb\PYZus{}val} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{train\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.9}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} create Pools for catboost}
+\PY{n}{train} \PY{o}{=} \PY{n}{Pool}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{cb\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{cb\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{val} \PY{o}{=} \PY{n}{Pool}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{cb\PYZus{}val}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{cb\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{101}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}catboost} \PY{o}{=} \PY{n}{cb}\PY{o}{.}\PY{n}{CatBoostRegressor}\PY{p}{(}
+    \PY{n}{objective}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RMSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{o}{*}\PY{o}{*}\PY{n}{study\PYZus{}catboost}\PY{o}{.}\PY{n}{best\PYZus{}params}
+\PY{p}{)}
+
+\PY{n}{model\PYZus{}catboost}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{train}\PY{p}{,} \PY{n}{eval\PYZus{}set}\PY{o}{=}\PY{n}{val}\PY{p}{,}
+    \PY{n}{use\PYZus{}best\PYZus{}model}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{early\PYZus{}stopping\PYZus{}rounds}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{101}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<catboost.core.CatBoostRegressor at 0x1d349de4b30>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Crossvalidate CatBoost with same CV Folds
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{crossval\PYZus{}catboost}\PY{p}{(}
+    \PY{n}{cb\PYZus{}params}\PY{p}{:} \PY{n+nb}{dict}\PY{p}{,} \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{reg\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,} \PY{n}{fold}\PY{p}{:} \PY{n}{RepeatedKFold}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+    
+    \PY{n}{scores} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{cb\PYZus{}params}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{custom\PYZus{}metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RMSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{train\PYZus{}idx}\PY{p}{,} \PY{n}{val\PYZus{}idx} \PY{o+ow}{in} \PY{n}{fold}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} split data to train and validation sets}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}val} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{train\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{val\PYZus{}idx}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} train on train subset and use validation set to evaluate the model}
+        \PY{n}{train} \PY{o}{=} \PY{n}{Pool}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{val} \PY{o}{=} \PY{n}{Pool}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n}{model} \PY{o}{=} \PY{n}{CatBoostRegressor}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{cb\PYZus{}params}\PY{p}{)}
+        
+        \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+            \PY{n}{train}\PY{p}{,} \PY{n}{eval\PYZus{}set}\PY{o}{=}\PY{n}{val}\PY{p}{,}
+            \PY{n}{use\PYZus{}best\PYZus{}model}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+            \PY{n}{early\PYZus{}stopping\PYZus{}rounds}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,}
+            \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+        \PY{p}{)}
+        
+        \PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+        
+        \PY{n}{res} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{get\PYZus{}best\PYZus{}score}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{validation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{res}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{p}{\PYZob{}}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MAPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean\PYZus{}absolute\PYZus{}percentage\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{o}{=}\PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{o}{=}\PY{n}{df\PYZus{}val}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{p}{\PYZcb{}}\PY{p}{)}
+        
+        \PY{n}{scores}\PY{o}{.}\PY{n}{append}\PY{p}{(}
+            \PY{n}{res}
+        \PY{p}{)}
+        
+    \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{scores}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{103}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res\PYZus{}catboost} \PY{o}{=} \PY{n}{crossval\PYZus{}catboost}\PY{p}{(}
+    \PY{n}{cb\PYZus{}params}\PY{o}{=}\PY{n}{study\PYZus{}catboost}\PY{o}{.}\PY{n}{best\PYZus{}params}\PY{p}{,}
+    \PY{n}{df}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,}
+    \PY{n}{reg\PYZus{}cols}\PY{o}{=}\PY{n}{reg\PYZus{}cols}\PY{p}{,}
+    \PY{n}{fold}\PY{o}{=}\PY{n}{cv\PYZus{}fold}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{res\PYZus{}catboost}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{[}\PY{n}{q5}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{q95}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              MAE       RMSE      MAPE
+q5      41.344076  61.835152  0.099698
+mean    43.448720  65.495030  0.103086
+median  43.584655  65.532344  0.103293
+q95     45.343069  69.776329  0.107130
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Additionally
+
+This might be a great one. I do scaling of the data to help algorithms
+to converge fast, but this way I make very brave assumptions about the
+distributions of the data, namely their mean and std, therefore when
+dealing with out of sample data I might get absolutely different results
+due to incorrect scaling. To account for this we might use bootstrapped
+estimates for population mean and standard deviation and use these
+instead of sample ones. This way we will most likely not arrive at the
+situation when mean and std of out of sample data is entirely different
+from ones we used for training.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{105}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{bootstrap\PYZus{}distr}\PY{p}{(}
+    \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{num\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,} \PY{n}{n\PYZus{}samples}\PY{p}{:} \PY{n+nb}{int} \PY{o}{=} \PY{l+m+mi}{1000}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+    
+    \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{num\PYZus{}cols}\PY{p}{:}
+            \PY{n}{sampled\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{choice}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{replace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+            \PY{n}{mean}\PY{p}{,} \PY{n}{std} \PY{o}{=} \PY{n}{sampled\PYZus{}vals}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{sampled\PYZus{}vals}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+            \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+                \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{num\PYZus{}col}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{col}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{mean}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{std}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{std}
+            \PY{p}{\PYZcb{}}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{)}   
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{106}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}bs} \PY{o}{=} \PY{n}{bootstrap\PYZus{}distr}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{num\PYZus{}cols}\PY{p}{,} \PY{n}{n\PYZus{}samples}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+100\%|██████████| 10000/10000 [00:05<00:00, 1924.22it/s]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}bs}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{num\PYZus{}col}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                    mean        std
+num\_col
+box\_count       7.363343   4.408011
+order\_entropy   0.612576   0.254414
+total\_weight   62.574156  32.904490
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's compare what we used to scale our data with bootstrapped
+estimates.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{n}{num\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{n}{num\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(total\_weight     62.570673
+ box\_count         7.362667
+ order\_entropy     0.612572
+ dtype: float64,
+ total\_weight     32.909144
+ box\_count         4.408977
+ order\_entropy     0.254442
+ dtype: float64)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Well, it is close enough, therefore, let's leave it as is.
+
+    Shapley values as feature importance
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} !pip install shap}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}fresh\PYZus{}client}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}fresh\PYZus{}client}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{110}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{shap}
+
+\PY{n}{explainer} \PY{o}{=} \PY{n}{shap}\PY{o}{.}\PY{n}{TreeExplainer}\PY{p}{(}\PY{n}{model\PYZus{}catboost}\PY{p}{)}
+\PY{n}{shap\PYZus{}values} \PY{o}{=} \PY{n}{explainer}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{reg\PYZus{}cols}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} visualize the first prediction\PYZsq{}s explanation}
+\PY{n}{shap}\PY{o}{.}\PY{n}{plots}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{shap\PYZus{}values}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{ML_project1_Mironov_Ilyuk_files/ML_project1_Mironov_Ilyuk_168_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
